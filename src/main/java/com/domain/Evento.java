@@ -5,28 +5,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-public class Evento implements Serializable {
-
+public class Evento implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	
 	private String nome;
 	private String tipo;
 	private String endereco;
@@ -36,18 +34,32 @@ public class Evento implements Serializable {
 	private String descricao;
 	private String faixaEtaria;
 	private String valor;
-
+	
+	@JsonFormat(pattern = "dd/MM/aaaa")
 	private Date data;
+	@JsonFormat(pattern = "HH:mm:SS")
 	private Date hora;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "id_dono")
 	private UsuarioCadastrado dono;
-	// private List<UsuarioCadastrado> dono = new ArrayList();
+	//private List<UsuarioCadastrado> dono = new ArrayList();
+	
+	@ManyToMany
+	@JoinTable(name = "ListaInteresse",
+	joinColumns = @JoinColumn(name = "id_evento"),
+	inverseJoinColumns = @JoinColumn(name = "id_usuario"))
+	private List<UsuarioCadastrado> listaInteresse = new ArrayList();
+	
+	@ManyToMany
+	@JoinTable(name = "ListaConfirmada",
+	joinColumns = @JoinColumn(name = "id_evento"),
+	inverseJoinColumns = @JoinColumn(name = "id_usuario"))
+	private List<UsuarioCadastrado> listaConfirmada = new ArrayList();
 
-	public Evento() {
-	}
-
+	public Evento() {}
+	
+	
 	public Evento(Integer id, String nome, String tipo, String endereco, String cidade, String estado, String valores,
 			String descricao, String faixaEtaria, String valor, Date data, Date hora, UsuarioCadastrado dono) {
 		super();
@@ -66,13 +78,16 @@ public class Evento implements Serializable {
 		this.dono = dono;
 	}
 
+
 	public UsuarioCadastrado getDono() {
 		return dono;
 	}
 
+
 	public void setDono(UsuarioCadastrado dono) {
 		this.dono = dono;
 	}
+
 
 	public Integer getId() {
 		return id;
@@ -170,6 +185,7 @@ public class Evento implements Serializable {
 		this.hora = hora;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -177,6 +193,7 @@ public class Evento implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -194,5 +211,7 @@ public class Evento implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	
+	
 }

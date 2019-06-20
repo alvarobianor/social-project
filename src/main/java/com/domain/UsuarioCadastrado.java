@@ -16,24 +16,32 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import antlr.debug.Event;
+
 @Entity
-public class UsuarioCadastrado implements Serializable{
+public class UsuarioCadastrado implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String username;
 	private String senha;
-	
+
 	private String nome;
 	private String cpf_cnpj;
 	private String email;
 	private Integer idade;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "dono")
 	private List<Evento> meusEventos = new ArrayList();
-	
+
+	@ManyToMany(mappedBy = "listaInteresse")
+	private List<Evento> minhaListaInteresse = new ArrayList();
+
+	@ManyToMany(mappedBy = "listaConfirmada")
+	private List<Evento> minhaListaConfirmada = new ArrayList();
+
 	public UsuarioCadastrado() {}
 
 	public UsuarioCadastrado(String username, String senha, String nome, String cpf_cnpj, String email, Integer idade) {
@@ -86,6 +94,14 @@ public class UsuarioCadastrado implements Serializable{
 		this.idade = idade;
 	}
 
+	public List<Evento> getMeusEventos() {
+		return meusEventos;
+	}
+
+	public void setMeusEventos(List<Evento> meusEventos) {
+		this.meusEventos = meusEventos;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -110,6 +126,5 @@ public class UsuarioCadastrado implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }
