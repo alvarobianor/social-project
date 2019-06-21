@@ -1,6 +1,8 @@
 package com.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.domain.Evento;
+import com.domain.UsuarioCadastrado;
+import com.domain.DTO.UsuarioCadastradoDTO;
 import com.service.EventosServices;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -49,4 +53,25 @@ public class EventosRest {
 		
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(value = "interesse/{idE}/{idU}", method = RequestMethod.PUT)
+	public ResponseEntity<?> setarInteresse(@PathVariable Integer idE, @PathVariable String idU){
+		//instancia evento e ususario  DTO
+		UsuarioCadastrado usu = service.buscarUsuario(idU);
+		Evento evt = service.buscarEventos(idE);
+		//salva num auxiliar as listas para depois serem setadas
+		List<UsuarioCadastrado> auxUsuario = evt.getListaInteresse();
+		List<Evento> auxEvento = usu.getMinhaListaInteresse();
+		//Agr sim salva as listas aualizadas com DTO
+		auxUsuario.add(usu);
+		evt.setListaInteresse(auxUsuario);
+		auxEvento.add(evt);
+		usu.setMinhaListaInteresse(auxEvento);
+		//atualiza as instacias no banco de dados
+		evt = service.atualizarEvento(evt);
+		usu = service.atualizarUsuario(usu);
+		return ResponseEntity.noContent().build();
+	}
+	
+	
 }

@@ -14,7 +14,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.domain.DTO.UsuarioCadastradoDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Evento implements Serializable{
@@ -30,10 +32,11 @@ public class Evento implements Serializable{
 	private String endereco;
 	private String cidade;
 	private String estado;
-	private String valores;
+	private String valores_tipo;
 	private String descricao;
 	private String faixaEtaria;
 	private String valor;
+	private boolean isLiberado;
 	
 	@JsonFormat(pattern = "dd/MM/aaaa")
 	private Date data;
@@ -45,11 +48,13 @@ public class Evento implements Serializable{
 	private UsuarioCadastrado dono;
 	//private List<UsuarioCadastrado> dono = new ArrayList();
 	
+	
 	@ManyToMany
 	@JoinTable(name = "ListaInteresse",
 	joinColumns = @JoinColumn(name = "id_evento"),
 	inverseJoinColumns = @JoinColumn(name = "id_usuario"))
 	private List<UsuarioCadastrado> listaInteresse = new ArrayList();
+	
 	
 	@ManyToMany
 	@JoinTable(name = "ListaConfirmada",
@@ -69,13 +74,14 @@ public class Evento implements Serializable{
 		this.endereco = endereco;
 		this.cidade = cidade;
 		this.estado = estado;
-		this.valores = valores;
+		this.valores_tipo = valores;
 		this.descricao = descricao;
 		this.faixaEtaria = faixaEtaria;
 		this.valor = valor;
 		this.data = data;
 		this.hora = hora;
 		this.dono = dono;
+		this.isLiberado = false;
 	}
 
 
@@ -86,6 +92,45 @@ public class Evento implements Serializable{
 
 	public void setDono(UsuarioCadastrado dono) {
 		this.dono = dono;
+	}
+
+	public String getValores_tipo() {
+		return valores_tipo;
+	}
+
+
+	public void setValores_tipo(String valores_tipo) {
+		this.valores_tipo = valores_tipo;
+	}
+
+
+	public boolean isLiberado() {
+		return isLiberado;
+	}
+
+
+	public void setLiberado(boolean isLiberado) {
+		this.isLiberado = isLiberado;
+	}
+
+	
+	public List<UsuarioCadastrado> getListaInteresse() {
+		return listaInteresse;
+	}
+
+	
+	public void setListaInteresse(List<UsuarioCadastrado> listaInteresse) {
+		this.listaInteresse = listaInteresse;
+	}
+
+	
+	public List<UsuarioCadastrado> getListaConfirmada() {
+		return listaConfirmada;
+	}
+
+
+	public void setListaConfirmada(List<UsuarioCadastrado> listaConfirmada) {
+		this.listaConfirmada = listaConfirmada;
 	}
 
 
@@ -138,11 +183,11 @@ public class Evento implements Serializable{
 	}
 
 	public String getValores() {
-		return valores;
+		return valores_tipo;
 	}
 
 	public void setValores(String valores) {
-		this.valores = valores;
+		this.valores_tipo = valores;
 	}
 
 	public String getDescricao() {

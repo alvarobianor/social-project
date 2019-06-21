@@ -1,29 +1,19 @@
-package com.domain;
+package com.domain.DTO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.domain.Evento;
+import com.domain.UsuarioCadastrado;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import antlr.debug.Event;
-
-@Entity
-public class UsuarioCadastrado implements Serializable {
+public class usuarioC_completo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
 	private String username;
 	private String senha;
 
@@ -32,28 +22,27 @@ public class UsuarioCadastrado implements Serializable {
 	private String email;
 	private Integer idade;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "dono")
+	
 	private List<Evento> meusEventos = new ArrayList();
 
-	@JsonIgnore
-	@ManyToMany(mappedBy = "listaInteresse")
+	
 	private List<Evento> minhaListaInteresse = new ArrayList();
 
-	@JsonIgnore
-	@ManyToMany(mappedBy = "listaConfirmada")
+	
 	private List<Evento> minhaListaConfirmada = new ArrayList();
 
-	public UsuarioCadastrado() {}
+	public usuarioC_completo() {}
 
-	public UsuarioCadastrado(String username, String senha, String nome, String cpf_cnpj, String email, Integer idade) {
-		super();
-		this.username = username;
-		this.senha = senha;
-		this.nome = nome;
-		this.cpf_cnpj = cpf_cnpj;
-		this.email = email;
-		this.idade = idade;
+	public usuarioC_completo(UsuarioCadastrado aux) {
+		this.username = aux.getUsername();
+		this.senha = "1234";
+		this.nome = aux.getNome();
+		this.cpf_cnpj = aux.getCpf_cnpj();
+		this.email = aux.getEmail();
+		this.idade = aux.getIdade();
+		this.meusEventos = aux.getMeusEventos();
+		this.minhaListaInteresse = aux.getMinhaListaInteresse();
+		this.minhaListaConfirmada = aux.getMinhaListaConfirmada();
 	}
 
 	public String getUsername() {
@@ -62,6 +51,14 @@ public class UsuarioCadastrado implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getNome() {
@@ -103,7 +100,6 @@ public class UsuarioCadastrado implements Serializable {
 	public void setMeusEventos(List<Evento> meusEventos) {
 		this.meusEventos = meusEventos;
 	}
-	
 
 	public List<Evento> getMinhaListaInteresse() {
 		return minhaListaInteresse;
@@ -137,7 +133,7 @@ public class UsuarioCadastrado implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UsuarioCadastrado other = (UsuarioCadastrado) obj;
+		usuarioC_completo other = (usuarioC_completo) obj;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -145,5 +141,7 @@ public class UsuarioCadastrado implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
 
 }
