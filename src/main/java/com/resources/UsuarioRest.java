@@ -3,6 +3,9 @@ package com.resources;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
+import com.domain.DTO.EventoDTO;
 import com.domain.DTO.UsuarioCadastradoDTO;
 import com.domain.DTO.usuarioC_completo;
 import com.service.AdministradoresServices;
@@ -30,16 +34,34 @@ public class UsuarioRest {
 	private UsuarioCadastradoServices service;
 
 	
-	  //Buscar Evento
+	  //Buscar Evento formatado com DTO
 	  
 	  @RequestMapping(value = "/buscar/{id}",method = RequestMethod.GET) 
 	  public ResponseEntity<?> buscar(@PathVariable String id) throws ObjectNotFoundException{
 	  
-	  UsuarioCadastrado evt = service.buscarUsuario(id); 
-	  usuarioC_completo completo = new usuarioC_completo(evt);
-	  return ResponseEntity.ok().body(completo);
+	  UsuarioCadastrado usuario = service.buscarUsuario(id); 
+	  UsuarioCadastradoDTO usuDto = new UsuarioCadastradoDTO(usuario);
+	  List<EventoDTO> minhaLisEventoDto = usuario.getMeusEventos().stream().map(obj -> new EventoDTO(obj)).collect(Collectors.toList());
+	  List<EventoDTO> interesseLisEventoDto = usuario.getMinhaListaInteresse().stream().map(obj -> new EventoDTO(obj)).collect(Collectors.toList());
+	  List<EventoDTO> confirmadoLisEventoDto = usuario.getMinhaListaConfirmada().stream().map(obj -> new EventoDTO(obj)).collect(Collectors.toList());
+	  //usuarioC_completo completo = new usuarioC_completo(evt);
+	  usuDto.setMeusEventos(minhaLisEventoDto);
+	  usuDto.setListaInteresse(interesseLisEventoDto);
+	  usuDto.setListaconfirmada(confirmadoLisEventoDto);
+	  return ResponseEntity.ok().body(usuario);
 	  
 	  }
+	  
+	  @RequestMapping(value = "/buscar/{id}/editar", method = RequestMethod.PUT)
+	  public ResponseEntity<?> editar(@PathVariable String id, @RequestBody UsuarioCadastrado usu){
+		  UsuarioCadastrado usuario = service.buscarUsuario(id);
+		  service.atualizaSemPerder(usuario, usu);
+		  usuario = service.atualizar(usuario);
+		  
+		  return ResponseEntity.noContent().build();
+	  }
+	  
+	  
 	  
 	/*
 	 * //Add evento

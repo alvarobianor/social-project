@@ -43,6 +43,7 @@ public class Evento implements Serializable{
 	@JsonFormat(pattern = "HH:mm:SS")
 	private Date hora;
 	
+	
 	@ManyToOne
 	@JoinColumn(name = "id_dono")
 	private UsuarioCadastrado dono;
@@ -53,14 +54,14 @@ public class Evento implements Serializable{
 	@JoinTable(name = "ListaInteresse",
 	joinColumns = @JoinColumn(name = "id_evento"),
 	inverseJoinColumns = @JoinColumn(name = "id_usuario"))
-	private List<UsuarioCadastrado> listaInteresse = new ArrayList();
+	private List<UsuarioCadastrado> listaInteresse = new ArrayList<>();
 	
 	
 	@ManyToMany
 	@JoinTable(name = "ListaConfirmada",
 	joinColumns = @JoinColumn(name = "id_evento"),
 	inverseJoinColumns = @JoinColumn(name = "id_usuario"))
-	private List<UsuarioCadastrado> listaConfirmada = new ArrayList();
+	private List<UsuarioCadastrado> listaConfirmada = new ArrayList<>();
 
 	public Evento() {}
 	

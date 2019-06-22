@@ -2,7 +2,6 @@ package com.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
-import com.domain.DTO.UsuarioCadastradoDTO;
+import com.domain.DTO.EventoDTO;
 import com.service.EventosServices;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -32,6 +31,7 @@ public class EventosRest {
 	public ResponseEntity<?> buscar(@PathVariable Integer id) throws ObjectNotFoundException{
 		
 		Evento evt = service.buscarEventos(id);
+		EventoDTO evtDto = new EventoDTO(evt);
 		return ResponseEntity.ok().body(evt);
 		
 	}
@@ -66,12 +66,31 @@ public class EventosRest {
 		auxUsuario.add(usu);
 		evt.setListaInteresse(auxUsuario);
 		auxEvento.add(evt);
-		usu.setMinhaListaInteresse(auxEvento);
+		evt.setListaInteresse(auxUsuario);
 		//atualiza as instacias no banco de dados
 		evt = service.atualizarEvento(evt);
 		usu = service.atualizarUsuario(usu);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@RequestMapping(value = "interesse-excluir/{idE}/{idU}", method = RequestMethod.PUT)
+	public ResponseEntity<?> exluirInteresse(@PathVariable Integer idE, @PathVariable String idU){
+		
+		UsuarioCadastrado usu = service.buscarUsuario(idU);
+		Evento evt = service.buscarEventos(idE);
+		
+		List<UsuarioCadastrado> auxUsuario = evt.getListaInteresse();
+		List<Evento> auxEvento = usu.getMinhaListaInteresse();
+		
+		auxUsuario.remove(usu);
+		auxEvento.remove(evt);
+		evt.setListaInteresse(auxUsuario);
+		evt.setListaInteresse(auxUsuario);
+		
+		evt = service.atualizarEvento(evt);
+		usu = service.atualizarUsuario(usu);
+		
+		return ResponseEntity.noContent().build();
+	}
 	
 }

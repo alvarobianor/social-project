@@ -56,7 +56,7 @@ public class AdministradoresRest {
 	@RequestMapping(value = "/listar-todos", method = RequestMethod.GET)
 	public ResponseEntity<?> BuscarTodos() {
 		List<Evento> list = service.buscarTodos();
-		List<Evento> list2 = new ArrayList();
+		List<Evento> list2 = new ArrayList<>();
 
 		for (Evento e : list) {
 			if (e.isLiberado() == false)

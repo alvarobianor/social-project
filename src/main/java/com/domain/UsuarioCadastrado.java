@@ -34,15 +34,15 @@ public class UsuarioCadastrado implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "dono")
-	private List<Evento> meusEventos = new ArrayList();
+	private List<Evento> meusEventos = new ArrayList<>();
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "listaInteresse")
-	private List<Evento> minhaListaInteresse = new ArrayList();
+	private List<Evento> minhaListaInteresse = new ArrayList<>();
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "listaConfirmada")
-	private List<Evento> minhaListaConfirmada = new ArrayList();
+	private List<Evento> minhaListaConfirmada = new ArrayList<>();
 
 	public UsuarioCadastrado() {}
 
