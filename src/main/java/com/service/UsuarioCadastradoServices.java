@@ -3,6 +3,9 @@ package com.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.dao.UsuarioCadastradoDAO;
@@ -34,10 +37,17 @@ public class UsuarioCadastradoServices {
 	
 	public void atualizaSemPerder(UsuarioCadastrado usu, UsuarioCadastrado usu2) {
 		
+		usu.setUsername(usu2.getUsername());
 		usu.setCpf_cnpj(usu2.getCpf_cnpj());
 		usu.setEmail(usu2.getEmail());
 		usu.setIdade(usu2.getIdade());
 		usu.setNome(usu2.getNome());
 		
+	}
+	
+	public Page<UsuarioCadastrado> buscarPages(Integer page, Integer linesPP, String direction, String orderBy){
+		PageRequest pageRequest = PageRequest.of(page, linesPP, Direction.valueOf(direction), orderBy);
+		
+		return Dao.findAll(pageRequest);
 	}
 }

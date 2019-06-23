@@ -1,27 +1,21 @@
 package com.resources;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
 import com.domain.DTO.EventoDTO;
 import com.domain.DTO.UsuarioCadastradoDTO;
-import com.domain.DTO.usuarioC_completo;
-import com.service.AdministradoresServices;
 import com.service.UsuarioCadastradoServices;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -48,19 +42,40 @@ public class UsuarioRest {
 	  usuDto.setMeusEventos(minhaLisEventoDto);
 	  usuDto.setListaInteresse(interesseLisEventoDto);
 	  usuDto.setListaconfirmada(confirmadoLisEventoDto);
-	  return ResponseEntity.ok().body(usuario);
+	  return ResponseEntity.ok().body(usuDto);
 	  
 	  }
 	  
 	  @RequestMapping(value = "/buscar/{id}/editar", method = RequestMethod.PUT)
-	  public ResponseEntity<?> editar(@PathVariable String id, @RequestBody UsuarioCadastrado usu){
+	  public ResponseEntity<?> editar(@PathVariable String id, @RequestBody UsuarioCadastrado usu){//se mudar o username não funciona
 		  UsuarioCadastrado usuario = service.buscarUsuario(id);
 		  service.atualizaSemPerder(usuario, usu);
 		  usuario = service.atualizar(usuario);
 		  
 		  return ResponseEntity.noContent().build();
 	  }
+	  //método auxiliar que seria passado no lugar no metodo anonimo
+	  public UsuarioCadastradoDTO auxUsuarioDTO(UsuarioCadastrado usuario) {
+		  UsuarioCadastradoDTO aux = new UsuarioCadastradoDTO(usuario);
+		  List<EventoDTO> minhaLisEventoDto = usuario.getMeusEventos().stream().map(obj -> new EventoDTO(obj)).collect(Collectors.toList());
+		  List<EventoDTO> interesseLisEventoDto = usuario.getMinhaListaInteresse().stream().map(obj -> new EventoDTO(obj)).collect(Collectors.toList());
+		  List<EventoDTO> confirmadoLisEventoDto = usuario.getMinhaListaConfirmada().stream().map(obj -> new EventoDTO(obj)).collect(Collectors.toList());
+		  aux.setMeusEventos(minhaLisEventoDto);
+		  aux.setListaInteresse(interesseLisEventoDto);
+		  aux.setListaconfirmada(confirmadoLisEventoDto);
+		  return aux;
+	  }
 	  
+	  @RequestMapping(value = "/buscar-todos", method = RequestMethod.GET)
+	  public ResponseEntity<?> buscarPage(
+			  @RequestParam(name = "page", defaultValue = "0") Integer page,
+			  @RequestParam(name = "linesPP", defaultValue = "2") Integer linesPP,
+			  @RequestParam(name = "ordem", defaultValue = "nome") String orderBy,
+			  @RequestParam(name = "direction", defaultValue = "ASC") String direction){
+		  Page<UsuarioCadastrado> pagina = service.buscarPages(page, linesPP, direction, orderBy);
+		  Page<UsuarioCadastradoDTO> objDTO = pagina.map(obj -> auxUsuarioDTO(obj));
+		  return ResponseEntity.ok().body(objDTO);
+	  }
 	  
 	  
 	/*
