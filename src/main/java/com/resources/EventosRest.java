@@ -2,6 +2,8 @@ package com.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +18,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
-import com.domain.DTO.EventoDTO;
+import com.domain.DTO.EventoRespostaDTO;
+import com.domain.DTO.UsuarioCadastradoDTO;
+import com.domain.DTO.UsuarioDTO_username_nome;
 import com.service.EventosServices;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -33,8 +37,16 @@ public class EventosRest {
 	public ResponseEntity<?> buscar(@PathVariable Integer id) throws ObjectNotFoundException{
 		
 		Evento evt = service.buscarEventos(id);
-		EventoDTO evtDto = new EventoDTO(evt);
-		return ResponseEntity.ok().body(evt);
+		EventoRespostaDTO evtDto = new EventoRespostaDTO(evt);
+		
+		List<UsuarioDTO_username_nome> listInteresse = evt.getListaInteresse().stream().map(obj -> new UsuarioDTO_username_nome(obj)).collect(Collectors.toList());		
+		List<UsuarioDTO_username_nome> listConfirmada = evt.getListaConfirmada().stream().map(obj -> new UsuarioDTO_username_nome(obj)).collect(Collectors.toList());		
+		
+		evtDto.setListConfirmado(listConfirmada);
+		evtDto.setListInteresse(listInteresse);
+		
+		
+		return ResponseEntity.ok().body(evtDto);
 		
 	}
 	
