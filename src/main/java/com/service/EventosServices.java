@@ -14,6 +14,7 @@ import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
 import com.exceptions.ObjectNotFoundException;
 
+
 @Service
 public class EventosServices {
 
@@ -54,5 +55,15 @@ public class EventosServices {
 		PageRequest evt = PageRequest.of(page, linesPP, Direction.valueOf(direction), orderBy);
 		
 		return DAO.findAll(evt);
+	}
+
+	public void delete(Integer id) throws Exception {
+		buscarEventos(id);
+		
+		try {
+			DAO.deleteById(id);
+		} catch (Exception e) {
+			throw new Exception("Não é possível excluir objetos relacionados");
+		}
 	}
 }

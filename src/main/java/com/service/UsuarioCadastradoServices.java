@@ -50,4 +50,22 @@ public class UsuarioCadastradoServices {
 		
 		return Dao.findAll(pageRequest);
 	}
+
+
+	public UsuarioCadastrado adicionarEvento(UsuarioCadastrado usuario) {
+			
+		return Dao.save(usuario);
+	}
+
+
+	public void delete(String id) throws Exception {
+		buscarUsuario(id);
+		
+		try {
+			Dao.deleteById(id);
+		} catch (Exception e) {
+			throw new Exception("Não foi possivel excluir, objs relacionados");
+		}
+		
+	}
 }

@@ -1,5 +1,6 @@
 package com.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.domain.UsuarioCadastrado;
 import com.domain.DTO.EventoDTO;
@@ -46,6 +48,14 @@ public class UsuarioRest {
 	  
 	  }
 	  
+	  @RequestMapping(method = RequestMethod.POST)
+		public ResponseEntity<?> adiconarEvento(@RequestBody UsuarioCadastrado usuario) {
+			usuario = service.adicionarEvento(usuario);
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
+					path("/{id}").buildAndExpand(usuario.getUsername()).toUri();
+			return ResponseEntity.created(uri).build();
+	  }
+	  
 	  @RequestMapping(value = "/buscar/{id}/editar", method = RequestMethod.PUT)
 	  public ResponseEntity<?> editar(@PathVariable String id, @RequestBody UsuarioCadastrado usu){//se mudar o username não funciona
 		  UsuarioCadastrado usuario = service.buscarUsuario(id);
@@ -54,6 +64,13 @@ public class UsuarioRest {
 		  
 		  return ResponseEntity.noContent().build();
 	  }
+	  
+	  @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+		public ResponseEntity<?> delete(@PathVariable String id) throws Exception {
+			service.delete(id);
+			return ResponseEntity.noContent().build();
+		}
+	  
 	  //método auxiliar que seria passado no lugar no metodo anonimo
 	  public UsuarioCadastradoDTO auxUsuarioDTO(UsuarioCadastrado usuario) {
 		  UsuarioCadastradoDTO aux = new UsuarioCadastradoDTO(usuario);

@@ -50,6 +50,12 @@ public class EventosRest {
 		
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable Integer id) throws Exception {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+	
 	//Add event
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> adiconarEvento(@RequestBody Evento evt) {
