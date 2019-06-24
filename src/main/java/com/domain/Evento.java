@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,19 +15,29 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import com.domain.DTO.UsuarioCadastradoDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+
+import com.dao.UsuarioCadastradoDAO;
+import com.exceptions.ObjectNotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.service.EventosServices;
+import com.service.UsuarioCadastradoServices;
 
 @Entity
-public class Evento implements Serializable{
-	
+public class Evento implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String nome;
 	private String tipo;
 	private String endereco;
@@ -37,37 +48,30 @@ public class Evento implements Serializable{
 	private String faixaEtaria;
 	private String valor;
 	private boolean isLiberado;
-	
+
 	@JsonFormat(pattern = "dd/MM/aaaa")
 	private Date data;
 	@JsonFormat(pattern = "HH:mm:SS")
 	private Date hora;
-	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_dono")
 	private UsuarioCadastrado dono;
-	//private List<UsuarioCadastrado> dono = new ArrayList();
-	
-	
+	// private List<UsuarioCadastrado> dono = new ArrayList();
+
 	@ManyToMany
-	@JoinTable(name = "ListaInteresse",
-	joinColumns = @JoinColumn(name = "id_evento"),
-	inverseJoinColumns = @JoinColumn(name = "id_usuario"))
+	@JoinTable(name = "ListaInteresse", joinColumns = @JoinColumn(name = "id_evento"), inverseJoinColumns = @JoinColumn(name = "id_usuario"))
 	private List<UsuarioCadastrado> listaInteresse = new ArrayList<>();
-	
-	
+
 	@ManyToMany
-	@JoinTable(name = "ListaConfirmada",
-	joinColumns = @JoinColumn(name = "id_evento"),
-	inverseJoinColumns = @JoinColumn(name = "id_usuario"))
+	@JoinTable(name = "ListaConfirmada", joinColumns = @JoinColumn(name = "id_evento"), inverseJoinColumns = @JoinColumn(name = "id_usuario"))
 	private List<UsuarioCadastrado> listaConfirmada = new ArrayList<>();
 
-	public Evento() {}
-	
-	
+	public Evento() {
+	}
+
 	public Evento(Integer id, String nome, String tipo, String endereco, String cidade, String estado, String valores,
-			String descricao, String faixaEtaria, String valor, Date data, Date hora, UsuarioCadastrado dono) {
+			String descricao, String faixaEtaria, String valor, Date data, Date hora ,String dono) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -81,15 +85,20 @@ public class Evento implements Serializable{
 		this.valor = valor;
 		this.data = data;
 		this.hora = hora;
-		this.dono = dono;
+		
+		/*
+		 * if (dono == null) { this.dono = null; } else { this.dono = new
+		 * Auxiliar().buscarUsuario(dono); }
+		 */
+		
+		this.dono = null;
+
 		this.isLiberado = false;
 	}
-
 
 	public UsuarioCadastrado getDono() {
 		return dono;
 	}
-
 
 	public void setDono(UsuarioCadastrado dono) {
 		this.dono = dono;
@@ -99,41 +108,33 @@ public class Evento implements Serializable{
 		return valores_tipo;
 	}
 
-
 	public void setValores_tipo(String valores_tipo) {
 		this.valores_tipo = valores_tipo;
 	}
-
 
 	public boolean isLiberado() {
 		return isLiberado;
 	}
 
-
 	public void setLiberado(boolean isLiberado) {
 		this.isLiberado = isLiberado;
 	}
 
-	
 	public List<UsuarioCadastrado> getListaInteresse() {
 		return listaInteresse;
 	}
 
-	
 	public void setListaInteresse(List<UsuarioCadastrado> listaInteresse) {
 		this.listaInteresse = listaInteresse;
 	}
 
-	
 	public List<UsuarioCadastrado> getListaConfirmada() {
 		return listaConfirmada;
 	}
 
-
 	public void setListaConfirmada(List<UsuarioCadastrado> listaConfirmada) {
 		this.listaConfirmada = listaConfirmada;
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -231,7 +232,6 @@ public class Evento implements Serializable{
 		this.hora = hora;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -239,7 +239,6 @@ public class Evento implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -257,7 +256,5 @@ public class Evento implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

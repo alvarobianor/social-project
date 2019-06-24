@@ -50,6 +50,7 @@ public class ProjetoSocialApplication implements CommandLineRunner {
 		usu2.setMeusEventos(Arrays.asList(evt3));
 		
 		uDao.saveAll(Arrays.asList(usu, usu2));
+		
 		eventosDAO.saveAll(Arrays.asList(evt, evt2, evt3, evt4));
 	}
 }

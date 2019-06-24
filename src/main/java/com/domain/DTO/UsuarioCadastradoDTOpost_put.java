@@ -11,7 +11,7 @@ import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class usuarioC_completo implements Serializable{
+public class UsuarioCadastradoDTOpost_put implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String username;
@@ -31,9 +31,9 @@ public class usuarioC_completo implements Serializable{
 	
 	private List<Evento> minhaListaConfirmada = new ArrayList();
 
-	public usuarioC_completo() {}
+	public UsuarioCadastradoDTOpost_put() {}
 
-	public usuarioC_completo(UsuarioCadastrado aux) {
+	public UsuarioCadastradoDTOpost_put(UsuarioCadastrado aux) {
 		this.username = aux.getUsername();
 		this.senha = "1234";
 		this.nome = aux.getNome();
@@ -133,7 +133,7 @@ public class usuarioC_completo implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		usuarioC_completo other = (usuarioC_completo) obj;
+		UsuarioCadastradoDTOpost_put other = (UsuarioCadastradoDTOpost_put) obj;
 		if (username == null) {
 			if (other.username != null)
 				return false;

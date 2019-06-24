@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.dao.EventosDAO;
 import com.dao.UsuarioCadastradoDAO;
 import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
+import com.domain.DTO.EventoDTOpost_put;
 import com.exceptions.ObjectNotFoundException;
 
 
@@ -23,6 +25,8 @@ public class EventosServices {
 
 	@Autowired
 	private UsuarioCadastradoDAO usuDAO;
+	
+	public EventosServices() {}
 
 	public Evento buscarEventos(Integer id) throws ObjectNotFoundException {
 		Optional<Evento> evento = DAO.findById(id);
@@ -66,4 +70,18 @@ public class EventosServices {
 			throw new Exception("Não é possível excluir objetos relacionados");
 		}
 	}
+
+	
+		public Evento fromEvento(EventoDTOpost_put e) {
+			Evento evento = new Evento(e.getId(), e.getNome(),
+					e.getTipo(), e.getEndereco(), e.getCidade(), e.getEstado(), e.getValores_tipo(),
+					e.getDescricao(), e.getFaixaEtaria(), e.getValor(), 
+					e.getData(), e.getHora(), null);
+			evento.setLiberado(e.isLiberado());
+			evento.setDono(buscarUsuario(e.getDono()));
+			evento.setListaInteresse(new ArrayList<>());
+			evento.setListaConfirmada(new ArrayList<>());
+			return evento;
+		}
+		
 }

@@ -2,8 +2,9 @@ package com.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,8 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
+import com.domain.DTO.EventoDTOpost_put;
 import com.domain.DTO.EventoRespostaDTO;
-import com.domain.DTO.UsuarioCadastradoDTO;
 import com.domain.DTO.UsuarioDTO_username_nome;
 import com.service.EventosServices;
 
@@ -58,10 +59,12 @@ public class EventosRest {
 	
 	//Add event
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> adiconarEvento(@RequestBody Evento evt) {
-		evt = service.adicionarEvento(evt);
+	public ResponseEntity<?> adiconarEvento(@Valid @RequestBody EventoDTOpost_put evt) {
+		Evento evento = service.fromEvento(evt);
+		//UsuarioCadastrado usuario = service.buscarUsuario(evt.getDono().getUsername());
+		evento = service.adicionarEvento(evento);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-				path("/{id}").buildAndExpand(evt.getId()).toUri();
+				path("/{id}").buildAndExpand(evento.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
