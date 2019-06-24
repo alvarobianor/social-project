@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
@@ -14,12 +15,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class UsuarioCadastradoDTOpost_put implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	
+	@NotEmpty
 	private String username;
+	@NotEmpty
 	private String senha;
 
+	@NotEmpty
 	private String nome;
+	@NotEmpty
 	private String cpf_cnpj;
+	@NotEmpty
 	private String email;
+	@NotEmpty
 	private Integer idade;
 
 	
@@ -43,6 +51,18 @@ public class UsuarioCadastradoDTOpost_put implements Serializable{
 		this.meusEventos = aux.getMeusEventos();
 		this.minhaListaInteresse = aux.getMinhaListaInteresse();
 		this.minhaListaConfirmada = aux.getMinhaListaConfirmada();
+	}
+	
+
+	public UsuarioCadastradoDTOpost_put(@NotEmpty String username, @NotEmpty String senha, @NotEmpty String nome,
+			@NotEmpty String cpf_cnpj, @NotEmpty String email, @NotEmpty Integer idade) {
+		super();
+		this.username = username;
+		this.senha = senha;
+		this.nome = nome;
+		this.cpf_cnpj = cpf_cnpj;
+		this.email = email;
+		this.idade = idade;
 	}
 
 	public String getUsername() {

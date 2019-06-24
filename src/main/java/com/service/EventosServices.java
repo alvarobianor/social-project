@@ -71,8 +71,8 @@ public class EventosServices {
 		}
 	}
 
-	
-		public Evento fromEvento(EventoDTOpost_put e) {
+	//tem que criar um método para iniciar as colecoes separados dependendo se já existir ou não
+		public Evento fromDTO(EventoDTOpost_put e) {
 			Evento evento = new Evento(e.getId(), e.getNome(),
 					e.getTipo(), e.getEndereco(), e.getCidade(), e.getEstado(), e.getValores_tipo(),
 					e.getDescricao(), e.getFaixaEtaria(), e.getValor(), 

@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.dao.UsuarioCadastradoDAO;
 import com.domain.UsuarioCadastrado;
 import com.domain.DTO.UsuarioCadastradoDTO;
+import com.domain.DTO.UsuarioCadastradoDTOpost_put;
 import com.exceptions.ObjectNotFoundException;
 
 @Service
@@ -64,5 +66,15 @@ public class UsuarioCadastradoServices {
 			throw new Exception("Não foi possivel excluir, objs relacionados");
 		}
 
+	}
+
+	//tem que criar um método para iniciar as colecoes separados dependendo se já existir ou não
+	public UsuarioCadastrado fromDTO(UsuarioCadastradoDTOpost_put u) {
+		
+		UsuarioCadastrado usu = new UsuarioCadastrado(u.getUsername(), u.getSenha(), u.getNome(), u.getCpf_cnpj(), u.getEmail(), u.getIdade());
+		usu.setMeusEventos(new ArrayList<>());
+		usu.setMinhaListaInteresse(new ArrayList<>());
+		usu.setMinhaListaConfirmada(new ArrayList<>());
+		return usu;
 	}
 }

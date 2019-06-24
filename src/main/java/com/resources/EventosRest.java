@@ -60,7 +60,7 @@ public class EventosRest {
 	//Add event
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> adiconarEvento(@Valid @RequestBody EventoDTOpost_put evt) {
-		Evento evento = service.fromEvento(evt);
+		Evento evento = service.fromDTO(evt);
 		//UsuarioCadastrado usuario = service.buscarUsuario(evt.getDono().getUsername());
 		evento = service.adicionarEvento(evento);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
@@ -70,7 +70,8 @@ public class EventosRest {
 	
 	// event
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> atualizarEvento(@PathVariable Integer id, @RequestBody Evento evt){
+	public ResponseEntity<?> atualizarEvento(@PathVariable Integer id, @RequestBody EventoDTOpost_put evtDto){
+		Evento evt = service.fromDTO(evtDto);
 		evt.setId(id);
 		evt = service.atualizarEvento(evt);
 		
