@@ -1,0 +1,165 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Evento</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description"
+	content="Site da Secretaria de Educação Básica de Capistrano">
+<meta name="author" content="Guilherme dos Santos">
+<link rel="icon" href="../../../../favicon.ico">
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="/css/carousel.css" rel="stylesheet">
+</head>
+
+<style>
+.jumbotron {
+	background-image: url(event1.png);
+	width: center;
+}
+
+p.groove {
+	border-style: grey;
+	text-align: center;
+	background: #900;
+	color: #FFF;
+}
+
+p.lead {
+	top: 200px;
+}
+
+.card-img {
+	max-width: auto;
+	max-height: 550px;
+	width: auto;
+	height: auto;
+}
+</style>
+
+
+<body>
+
+
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<a class="navbar-brand" href="/eventos/index">Events</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarCollapse" aria-controls="navbarCollapse"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link"
+						href="/eventos/index">Home<span class="sr-only">(current)</span></a></li>
+					<li class="nav-item"><a class="nav-link" href="/eventos/buscartodos">Eventos</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="/eventos/formulario">Área
+							do usuário</a></li>
+
+					<li class="nav-item"><a class="nav-link" href="#">Contato</a>
+					</li>
+				</ul>
+				<script>
+					
+				</script>
+				<gcse:search></gcse:search>
+
+				<form class="form-inline mt-2 mt-md-0">
+					<input class="form-control mr-sm-2" type="text"
+						placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+				</form>
+			</div>
+		</nav>
+	</header>
+
+
+	<div class="card bg-dark text-white">
+		<img class="card-img" th:src="@{'/images/'+${evento.nome}+.png}" alt="Imagem do card">
+		<div class="card-img-overlay">
+			<h5 class="card-title">Confira todas as informações do evento
+				abaixo!</h5>
+			<p class="card-text">Marque presença! Compartilhe com os amigos!</p>
+		</div>
+	</div>
+
+	<!-- <div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button"
+			id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+			aria-expanded="false">Dropdown button</button>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="#">Action</a> <a class="dropdown-item"
+				href="#">Another action</a> <a class="dropdown-item" href="#">Something
+				else here</a>
+		</div>
+	</div> -->
+	
+	
+	
+
+	<!-- <div class="row featurette">
+		<div class="col-md-7">
+			<h2 class="featurette-heading">
+				<strong th:text=${evento.dono.nome}> </strong> </br>
+				<p class="lead" th:text=${evento.descricao}></p>
+
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input"
+						id="defaultChecked2" checked> <label
+						class="custom-control-label" for="defaultChecked2">Confirmar
+						Presença</label>
+				</div>
+
+				</br> <img src="eve1.jpg" alt="..." class="img-thumbnail"> <img
+					src="eve2.jpg" alt="..." class="img-thumbnail"> <img
+					src="eve3.jpg" alt="..." class="img-thumbnail">
+
+				<div class="card" style="width: 25rem; left: 850px; top: -2100px;">
+					<img class="card-img-top" src="/event1.png"
+						alt="Imagem de capa do card">
+					<div class="card-body">
+						<h5 class="card-title" th:text=${evento.nome}></h5>
+						<p class="card-text">Realizado na Unicatólica de Quixadá</p>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">Horário: A partir das 9:00h</li>
+						<li class="list-group-item">Valor: 10 reais</li>
+						<li class="list-group-item">Endereço: Rua Juvêncio Alves,
+							660. Centro/Quixadá</li>
+					</ul>
+					<div class="card-body">
+						<a
+							href="https://www.google.com/maps/place/R.+Juv%C3%AAncio+Alves,+660+-+Centro,+Quixad%C3%A1+-+CE,+63900-000/@-4.9736481,-39.0157885,17z/data=!3m1!4b1!4m5!3m4!1s0x7be9fc14b9df5dd:0x6db8329d6676d7aa!8m2!3d-4.9736481!4d-39.0135998"
+							class="btn btn-primary">Ver Google Maps</a>
+						Default checked
+
+					</div>
+				</div> -->
+				<!-- Bootstrap core JavaScript
+    ================================================== -->
+				<!-- Placed at the end of the document so the pages load faster -->
+				<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+					integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+					crossorigin="anonymous"></script>
+				<script>
+					window.jQuery
+							|| document
+									.write('<script src="jquery-slim.min.js"><\/script>')
+				</script>
+				<script src="/js/popper.min.js"></script>
+				<script src="/js/bootstrap.min.js"></script>
+				<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+				<script src="/js/holder.min.js"></script>
+</body>
+
+
+
+</html>

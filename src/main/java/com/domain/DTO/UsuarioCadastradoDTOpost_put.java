@@ -27,7 +27,7 @@ public class UsuarioCadastradoDTOpost_put implements Serializable{
 	private String cpf_cnpj;
 	@NotEmpty
 	private String email;
-	@NotEmpty
+	
 	private Integer idade;
 
 	
@@ -55,7 +55,7 @@ public class UsuarioCadastradoDTOpost_put implements Serializable{
 	
 
 	public UsuarioCadastradoDTOpost_put(@NotEmpty String username, @NotEmpty String senha, @NotEmpty String nome,
-			@NotEmpty String cpf_cnpj, @NotEmpty String email, @NotEmpty Integer idade) {
+			@NotEmpty String cpf_cnpj, @NotEmpty String email, Integer idade) {
 		super();
 		this.username = username;
 		this.senha = senha;

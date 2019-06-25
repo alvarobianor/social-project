@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dao.EventosDAO;
 import com.dao.UsuarioCadastradoDAO;
@@ -15,6 +17,7 @@ import com.domain.Evento;
 import com.domain.UsuarioCadastrado;
 import com.domain.DTO.EventoDTOpost_put;
 import com.exceptions.ObjectNotFoundException;
+import com.utils.AulaFileUtils;
 
 
 @Service
@@ -37,6 +40,14 @@ public class EventosServices {
 	public Evento adicionarEvento(Evento evt) {
 		return evt = DAO.save(evt);
 	}
+	
+	public void adicionarEvento(Evento evento, MultipartFile imagem) {
+		String caminho = "images/" + evento.getNome() + ".png";
+		AulaFileUtils.salvarImagem(caminho,imagem);
+		DAO.save(evento);
+		
+	}
+	
 
 	public Evento atualizarEvento(Evento evt) {
 		// TODO Auto-generated method stub
@@ -83,5 +94,33 @@ public class EventosServices {
 			evento.setListaConfirmada(new ArrayList<>());
 			return evento;
 		}
-		
+
+		public List<Evento> buscarTodos() {
+			
+			List<Evento> aux = DAO.findAll();
+			List<Evento> aux2 = new ArrayList<>();
+			for(Evento evt : aux) {
+				if(evt.situacao() == true) {
+					aux2.add(evt);
+				}
+			}
+			
+			return aux2;
+		}
+
+		public List<Evento> buscarCarrocel() {
+			List<Evento> aux = DAO.findAll();
+			List<Evento> retorno = new ArrayList<>();
+			
+			for(int i=0; i<3; i++) {
+				if(aux.get(i).getId()!=null) {
+					retorno.add(aux.get(i));
+				}else {
+					i++;
+				}
+			}
+			
+			return retorno;
+		}
+
 }

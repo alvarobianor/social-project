@@ -49,10 +49,10 @@ public class Evento implements Serializable {
 	private String valor;
 	private boolean isLiberado;
 
-	@JsonFormat(pattern = "dd/MM/aaaa")
-	private Date data;
-	@JsonFormat(pattern = "HH:mm:SS")
-	private Date hora;
+	
+	private String data;
+	
+	private String hora;
 
 	@ManyToOne
 	@JoinColumn(name = "id_dono")
@@ -71,7 +71,7 @@ public class Evento implements Serializable {
 	}
 
 	public Evento(Integer id, String nome, String tipo, String endereco, String cidade, String estado, String valores,
-			String descricao, String faixaEtaria, String valor, Date data, Date hora ,String dono) {
+			String descricao, String faixaEtaria, String valor, String data, String hora ,String dono) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -216,19 +216,19 @@ public class Evento implements Serializable {
 		this.valor = valor;
 	}
 
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 
-	public Date getHora() {
+	public String getHora() {
 		return hora;
 	}
 
-	public void setHora(Date hora) {
+	public void setHora(String hora) {
 		this.hora = hora;
 	}
 
@@ -257,4 +257,9 @@ public class Evento implements Serializable {
 		return true;
 	}
 
+	public Boolean situacao() {
+		
+		return this.isLiberado;
+	}
+	
 }

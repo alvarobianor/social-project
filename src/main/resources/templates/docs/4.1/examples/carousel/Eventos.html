@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description"
+	content="Site da Secretaria de Educação Básica de Capistrano">
+<meta name="author" content="Guilherme dos Santos">
+<link rel="icon" href="../../../../favicon.ico">
+
+<title>Eventos</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="/css/album.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<a class="navbar-brand" href="/eventos/index">Events</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarCollapse" aria-controls="navbarCollapse"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link"
+						href="/eventos/index">Home<span class="sr-only">(current)</span></a></li>
+					<li class="nav-item"><a class="nav-link" href="/eventos/buscartodos">Eventos</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="/eventos/formulario">Área
+							do usuário</a></li>
+
+					<li class="nav-item"><a class="nav-link" href="#">Contato</a>
+					</li>
+				</ul>
+				<script>
+					
+				</script>
+				<gcse:search></gcse:search>
+
+				<form class="form-inline mt-2 mt-md-0">
+					<input class="form-control mr-sm-2" type="text"
+						placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+				</form>
+			</div>
+		</nav>
+	</header>
+
+	<main role="main">
+
+
+
+	<section class="jumbotron text-center">
+		<div class="container">
+			<h1 class="jumbotron-heading">Confira seu proximo evento aqui!</h1>
+			<p class="lead text-muted">Veja informações, data, preços e
+				horários dos principais eventos de Quixadá!</p>
+		</div>
+	</section>
+
+	<div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button"
+			id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+			aria-expanded="false">Ordernar por</button>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="#">Data</a> 
+		</div>
+	</div>
+	
+
+	<div class="album py-5 bg-light" th:each="evento : ${list}"
+		style="align: center">
+		<div class="container">
+
+			<!-- Cards -->
+
+			<!-- <div class="col-md-4">
+				<div class="card" style="width: 18rem;">
+					<img src="event2.jpeg"
+						data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
+						class="card-img-top" alt="Thumb">
+					<div class="card-body">
+						<h5 class="card-title" th:text="${evento.nome}"></h5>
+						<p class="card-text">Some quick example text to build on the
+							card title and make up the bulk of the card's content.</p>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">Cras justo odio</li>
+						<li class="list-group-item">Dapibus ac facilisis in</li>
+						<li class="list-group-item">Vestibulum at eros</li>
+					</ul>
+					<div class="card-body">
+						<a href="#" class="card-link">Card link</a> <a href="#"
+							class="card-link">Another link</a>
+					</div>
+				</div>
+
+			</div> -->
+			<!-- <div class="alert alert-success" role="alert"
+				th:if="${!#string.isEmpty(evento.nome)}">
+				<span>Lista vazia, tente aprovar eventos para aparecerem</span>
+			</div> -->
+
+			<div class="card mb-3" style="max-width: 1600px;">
+				<div class="row no-gutters">
+					<div class="col-md-4">
+						<img th:src="@{'/images/'+${evento.nome}+.png}"
+							data-src="holder.js/100px300?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
+							class="card-img rounded-circle" alt="...">
+					</div>
+					<div class="col-md-8">
+						<div class="card-body">
+							<h5 class="card-title">
+								<strong th:text="${evento.nome}"></strong>
+							</h5>
+							<p class="card-text" th:text="${evento.descricao}"></p>
+							<br> Endereço: <label class="card-text"
+								th:text="${evento.endereco}"> </label> <br> Cidade: <label
+								class="card-text" th:text="${evento.cidade}"> </label> <br>
+							Estado: <label class="card-text" th:text="${evento.estado}">
+							</label> <br> Valor: <label class="card-text"
+								th:text="${evento.valor}"> </label> <br>
+
+
+							<button type="button" class="btn btn-primary" data-toggle="modal"
+								data-target="#exampleModal">Saiba mais</button>
+
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel"><strong th:text="${evento.nome}"></strong></h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+
+											<img th:src="@{'/images/'+${evento.nome}+.png}"
+												data-src="holder.js/50px150?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
+												class="card-img" alt="..." height="400px">
+											<hr>
+											<label> <strong>Tipo: </strong> </label> <p class="card-text" th:text="${evento.tipo}"> 
+											<hr>
+											<label> <strong>Descrição: </strong> </label> <p class="card-text" th:text="${evento.descricao}"></p>
+											<hr class="mb-4">
+											<label> <strong>Data: </strong> </label> <p class="card-text" th:text="${evento.data}">
+										    <hr>
+										    <label> <strong>Hora: </strong> </label> <p class="card-text" th:text="${evento.hora}">
+										    <hr>
+										    <label> <strong>Valor: </strong> </label> <p class="card-text" th:text="${evento.valor}">
+										    <hr class="mb-4">
+										    <label> <strong>Faixa Etaria: </strong> </label> <p class="card-text" th:text="${evento.faixaEtaria}">
+										    <hr class="mb-4">
+										    <label> <strong>Endereco: </strong> </label> <p class="card-text" th:text="${evento.endereco}">
+										    <hr>
+										    <label> <strong>Cidade: </strong> </label> <p class="card-text" th:text="${evento.cidade}">
+										    <hr> 
+										    <label> <strong>Estado: </strong> </label> <p class="card-text" th:text="${evento.estado}">
+										    <hr class="mb-4">
+										     <label> <strong>Dono do Evento: </strong> </label><p class="card-text" th:text="${evento.dono.nome}">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Fechar</button>
+											<button type="button" class="btn btn-primary">Confirmar presença</button>
+											<button type="button" class="btn btn-primary">Confirmar interesse</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  <div class="row" >
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" src ="event2.jpeg" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text"><strong th:text="${evento.nome}"></strong>  </br> Local: Praça José de Barros; </br> Gratuito; </br> Início: 21:00h </strong>  </br> O Carnaval Popular de Quixadá é o evento tradicional da cidade, que sempre ocorre na praça José de Barros, nos 4 dias de carnaval  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      
+                      <p><a class="btn btn-sm btn-outline-secondary" href="eventGeral1.html" role="button">Veja Evento completo e confirme presença!</a></p>
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+            </div> -->
+			<!-- <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" src ="eventfest.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text"><strong>RESSACA DE CARNAVAL  </br> Endereço: Privillege bar e lounge; Ingresso: 10 reais; </br> Início: 22h</strong> </br>Venha tirar a ressaca de carnaval ouvindo o melhor som, com o melhor ambiente, no Privillege Bar e Lounge!</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      
+                      <p><a class="btn btn-sm btn-outline-secondary" href="eventGeral2.html" role="button">Veja Evento completo e confirme presença</a></p>
+                    </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" src ="eventfest1.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text"><strong>SEMANA SANTA QUIXADÁ  </br> Endereço: Pinheiro Society - Quixadá  </br> Ingresso: 20 reais </br> Faixa etária: Maior de 18 anos. </br> Início: 22h </strong>  </br> Venha conferir a maior semana santa do Ceará com Aviões do Forró, Solteirões, Sacode, Toca do Vale e Conde do Forró!</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      
+                      
+                     <p><a class="btn btn-sm btn-outline-secondary" href="eventGeral3.html" role="button">Veja Evento completo e confirme presença</a></p>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+ -->
+			<!-- cards a mais para usar -->
+
+			<!--
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>-->
+		</div>
+	</div>
+	</main>
+
+	<footer class="container">
+		<p class="float-right">
+			<a href="#">Voltar ao Início</a>
+		</p>
+		<p>&copy; 2018 &middot;</p>
+	</footer>
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script>
+		window.jQuery
+				|| document
+						.write('<script src="jquery-slim.min.js"><\/script>')
+	</script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/holder.min.js"></script>
+</body>
+</html>

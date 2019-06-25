@@ -9,12 +9,14 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.domain.UsuarioCadastrado;
@@ -25,17 +27,44 @@ import com.service.UsuarioCadastradoServices;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
-@RestController
+@Controller
 @RequestMapping(value = "/usuarios")
 public class UsuarioRest {
 
 	@Autowired
 	private UsuarioCadastradoServices service;
 
+	
+	@RequestMapping("/formulario")
+	public String olaMundo() {
+		return "Form";
+	}
+	
 	// Buscar Evento formatado com DTO
 
-	@RequestMapping(value = "/buscar/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> buscar(@PathVariable String id) throws ObjectNotFoundException {
+	/*
+	 * @RequestMapping(value = "/buscar/{id}", method = RequestMethod.GET) public
+	 * ResponseEntity<?> buscar2(@PathVariable String id) throws
+	 * ObjectNotFoundException {
+	 * 
+	 * UsuarioCadastrado usuario = service.buscarUsuario(id); UsuarioCadastradoDTO
+	 * usuDto = new UsuarioCadastradoDTO(usuario); List<EventoDTO> minhaLisEventoDto
+	 * = usuario.getMeusEventos().stream().map(obj -> new EventoDTO(obj))
+	 * .collect(Collectors.toList()); List<EventoDTO> interesseLisEventoDto =
+	 * usuario.getMinhaListaInteresse().stream().map(obj -> new EventoDTO(obj))
+	 * .collect(Collectors.toList()); List<EventoDTO> confirmadoLisEventoDto =
+	 * usuario.getMinhaListaConfirmada().stream() .map(obj -> new
+	 * EventoDTO(obj)).collect(Collectors.toList()); // usuarioC_completo completo =
+	 * new usuarioC_completo(evt); usuDto.setMeusEventos(minhaLisEventoDto);
+	 * usuDto.setListaInteresse(interesseLisEventoDto);
+	 * usuDto.setListaconfirmada(confirmadoLisEventoDto); return
+	 * ResponseEntity.ok().body(usuDto);
+	 * 
+	 * }
+	 */
+	
+	@RequestMapping(value = "/buscar/{id}")
+	public ModelAndView buscar(@PathVariable String id) throws ObjectNotFoundException {
 
 		UsuarioCadastrado usuario = service.buscarUsuario(id);
 		UsuarioCadastradoDTO usuDto = new UsuarioCadastradoDTO(usuario);
@@ -49,17 +78,20 @@ public class UsuarioRest {
 		usuDto.setMeusEventos(minhaLisEventoDto);
 		usuDto.setListaInteresse(interesseLisEventoDto);
 		usuDto.setListaconfirmada(confirmadoLisEventoDto);
-		return ResponseEntity.ok().body(usuDto);
+		
+		ModelAndView mv = new ModelAndView("/docs/4.1/examples/carousel/evento1");
+		mv.addObject("usuario",usuDto);
+		return mv;
 
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> adiconarEvento(@Valid @RequestBody UsuarioCadastradoDTOpost_put usuarioDto) {
+	public String adiconarEvento(@Valid UsuarioCadastradoDTOpost_put usuarioDto) {
 		UsuarioCadastrado usuario = service.fromDTO(usuarioDto);
 		usuario = service.adicionarEvento(usuario);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getUsername())
 				.toUri();
-		return ResponseEntity.created(uri).build();
+		return "/docs/4.1/examples/carousel/index";
 	}
 
 	@RequestMapping(value = "/buscar/{id}/editar", method = RequestMethod.PUT)

@@ -21,10 +21,7 @@ public class EventoDTOpost_put implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@JsonIgnoreProperties
-	@JsonIgnore
-	@Autowired
-	UsuarioCadastradoServices service;
+	
 	
 	private Integer id;
 	@NotEmpty
@@ -48,11 +45,11 @@ public class EventoDTOpost_put implements Serializable {
 	private boolean isLiberado;
 
 	//@NotEmpty
-	@JsonFormat(pattern = "dd/MM/aaaa")
-	private Date data;
+	
+	private String data;
 	//@NotEmpty
-	@JsonFormat(pattern = "HH:mm:SS")
-	private Date hora;
+	
+	private String hora;
 	
 	@NotEmpty
 	private String dono;
@@ -196,19 +193,19 @@ public class EventoDTOpost_put implements Serializable {
 		this.isLiberado = isLiberado;
 	}
 
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 
-	public Date getHora() {
+	public String getHora() {
 		return hora;
 	}
 
-	public void setHora(Date hora) {
+	public void setHora(String hora) {
 		this.hora = hora;
 	}
 	
